@@ -56,6 +56,7 @@ button:focus-visible {
 h2 {
   font-size: 2.7em;
   line-height: 1.1;
+  text-align: center;
 }
 
 @media (prefers-color-scheme: light) {

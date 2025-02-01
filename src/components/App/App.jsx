@@ -4,7 +4,9 @@ import Header from '../Header/Header.jsx';
 import Navbar from '../Navbar/Navbar.jsx';
 import Footer from '../Footer/Footer.jsx';
 import NewArrivals from '../NewArrivals/NewArrivals.jsx';
-import newArrivalsData from '../NewArrivals/NewArrivalsData.js'; // Import the data
+import NewArrivalsData from '../NewArrivals/NewArrivalsData.js';
+import BestSellers from '../BestSellers/BestSellers.jsx';
+import BestsellersData from '../BestSellers/BestsellersData.js'; // Import the data
 import logo from '../../assets/logo.svg';
 import welcomeImage from '../../assets/background.jpg'; // Import the welcome image
 
@@ -28,7 +30,9 @@ const App = () => {
         </div>
 
         {/* New Arrivals Section - Now uses imported data */}
-        <NewArrivals products={newArrivalsData} />
+        <NewArrivals products={NewArrivalsData} />
+        {/* Best sellers Section - Now uses imported data */}
+        <BestSellers products={BestsellersData} />
       </main>
 
       {/* Footer Component */}
