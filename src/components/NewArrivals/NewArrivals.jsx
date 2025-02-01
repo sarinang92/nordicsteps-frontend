@@ -8,7 +8,7 @@ const NewArrivals = ({ products }) => {
       <div className="product-container">
         {products.map((product, index) => (
           <div key={index} className="product-box">
-            <img src={product.imageUrl} alt={product.name} className="product-image"/>
+            <img src={product.imageUrl} alt={product.name} className="product-image" />
             <div className="product-info">
               <h3>{product.name}</h3>
               <p>${product.price}</p>

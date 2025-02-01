@@ -3,6 +3,8 @@ import './App.css'; // Import the CSS file
 import Header from '../Header/Header.jsx';
 import Navbar from '../Navbar/Navbar.jsx';
 import Footer from '../Footer/Footer.jsx';
+import NewArrivals from '../NewArrivals/NewArrivals.jsx';
+import newArrivalsData from '../NewArrivals/NewArrivalsData.js'; // Import the data
 import logo from '../../assets/logo.svg';
 import welcomeImage from '../../assets/background.jpg'; // Import the welcome image
 
@@ -10,7 +12,7 @@ const App = () => {
   return (
     <div className="app">
       {/* Header Component */}
-      <Header logoSrc={logo} /> {/* Pass the logo as a prop */}
+      <Header logoSrc={logo} />
 
       {/* Navbar Component */}
       <Navbar />
@@ -24,6 +26,9 @@ const App = () => {
             <p>Discover the best shoes for every occasion!</p>
           </div>
         </div>
+
+        {/* New Arrivals Section - Now uses imported data */}
+        <NewArrivals products={newArrivalsData} />
       </main>
 
       {/* Footer Component */}
