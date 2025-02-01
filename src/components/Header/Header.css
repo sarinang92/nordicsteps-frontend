@@ -1,0 +1,30 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* Ensures elements are pushed to either side */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #EAE4E4;
+  color: #000000;
+  box-sizing: border-box; 
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 50px;
+  margin-right: 10px;
+}
+
+.tagline {
+  font-size: 1.5rem;
+}
+
+.user-controls {
+  display: flex; /* Aligns ShoppingCart and UserMenu side by side */
+  align-items: center; /* Centers them vertically */
+  gap: 20px; /* Optional: adds space between the elements */
+}
