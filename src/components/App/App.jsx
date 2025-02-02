@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css'; // Import the CSS file
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from '../Header/Header.jsx';
 import Navbar from '../Navbar/Navbar.jsx';
 import Footer from '../Footer/Footer.jsx';
@@ -10,34 +11,51 @@ import BestsellersData from '../BestSellers/BestsellersData.js'; // Import the d
 import logo from '../../assets/logo.svg';
 import welcomeImage from '../../assets/background.jpg'; // Import the welcome image
 
+
+import Men from '../Men/Men.jsx';
+import Women from '../Women/Women.jsx';
+import Kids from '../Kids/Kids.jsx';
+import Sale from '../Sale/Sale.jsx';
+
 const App = () => {
   return (
-    <div className="app">
-      {/* Header Component */}
-      <Header logoSrc={logo} />
+    <Router basename="/nordicsteps">
+      <div className="app">
+        {/* Header Component */}
+        <Header logoSrc={logo} />
 
-      {/* Navbar Component */}
-      <Navbar />
+        {/* Navbar Component */}
+        <Navbar />
 
-      {/* Main Content Section */}
-      <main className="main-content">
-        <div className="image-container">
-          <img src={welcomeImage} alt="Welcome to Nordic Steps" className="welcome-image" />
-          <div className="overlay-text">
-            <h1>Welcome to Nordic Steps</h1>
-            <p>Discover the best shoes for every occasion!</p>
+        {/* Main Content Section */}
+        <main className="main-content">
+          <div className="image-container">
+            <img src={welcomeImage} alt="Welcome to Nordic Steps" className="welcome-image" />
+            <div className="overlay-text">
+              <h1>Welcome to Nordic Steps</h1>
+              <p>Discover the best shoes for every occasion!</p>
+            </div>
           </div>
-        </div>
 
-        {/* New Arrivals Section - Now uses imported data */}
-        <NewArrivals products={NewArrivalsData} />
-        {/* Best sellers Section - Now uses imported data */}
-        <BestSellers products={BestsellersData} />
-      </main>
+          <Routes>
+            <Route path="/" element={
+              <>
+                <NewArrivals products={NewArrivalsData} />
+                <BestSellers products={BestsellersData} />
+              </>
+            } />
+            <Route path="/men" element={<Men />} />
+            <Route path="/women" element={<Women />} />
+            <Route path="/kids" element={<Kids />} />
+            <Route path="/sale" element={<Sale />} />
+          </Routes>
+          
+        </main>
 
-      {/* Footer Component */}
-      <Footer />
-    </div>
+        {/* Footer Component */}
+        <Footer />
+      </div>
+    </Router>
   );
 };
 

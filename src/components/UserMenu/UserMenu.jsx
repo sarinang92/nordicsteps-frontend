@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import './UserMenu.css'; // Import the CSS file
 import userIcon from '../../assets/user.svg';
-
 
 const UserMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,17 +15,20 @@ const UserMenu = () => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <img src={userIcon} alt="User Icon" className="user-icon" />
+      <Link to="/account">
+        <img src={userIcon} alt="User Icon" className="user-icon" />
+      </Link>
+      
       {isMenuOpen && (
         <ul className="dropdown-menu">
           <li className="menu-item">
-            <a href="#profile" className="menu-link">Profile</a>
+            <Link to="/account" className="menu-link">Profile</Link> 
           </li>
           <li className="menu-item">
-            <a href="#orders" className="menu-link">My Orders</a>
+            <Link to="/orders" className="menu-link">My Orders</Link> 
           </li>
           <li className="menu-item">
-            <a href="#logout" className="menu-link">Logout</a>
+            <Link to="/logout" className="menu-link">Logout</Link> 
           </li>
         </ul>
       )}

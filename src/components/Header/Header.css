@@ -19,6 +19,11 @@
   margin-right: 10px;
 }
 
+.logo-link {
+  text-decoration: none; 
+  color: inherit;
+}
+
 .tagline {
   font-size: 1.5rem;
 }
