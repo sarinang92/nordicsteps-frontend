@@ -16,6 +16,9 @@ import Men from '../Men/Men.jsx';
 import Women from '../Women/Women.jsx';
 import Kids from '../Kids/Kids.jsx';
 import Sale from '../Sale/Sale.jsx';
+import Login from '../Auth/Login.jsx'; 
+import SignUp from '../Auth/SignUp';
+
 
 const App = () => {
   return (
@@ -48,6 +51,8 @@ const App = () => {
             <Route path="/women" element={<Women />} />
             <Route path="/kids" element={<Kids />} />
             <Route path="/sale" element={<Sale />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
           
         </main>

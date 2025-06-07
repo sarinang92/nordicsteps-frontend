@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import './UserMenu.css'; // Import the CSS file
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import './UserMenu.css';
 import userIcon from '../../assets/user.svg';
 
 const UserMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate(); // Initialize navigation
 
   const handleMouseEnter = () => setIsMenuOpen(true);
   const handleMouseLeave = () => setIsMenuOpen(false);
+
+  const handleIconClick = () => {
+    navigate('/login'); // Navigate to login page
+  };
 
   return (
     <div
@@ -15,20 +20,24 @@ const UserMenu = () => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Link to="/account">
-        <img src={userIcon} alt="User Icon" className="user-icon" />
-      </Link>
-      
+      <img
+        src={userIcon}
+        alt="User Icon"
+        className="user-icon"
+        onClick={handleIconClick} // Handle click
+        style={{ cursor: 'pointer' }}
+      />
+
       {isMenuOpen && (
         <ul className="dropdown-menu">
           <li className="menu-item">
-            <Link to="/account" className="menu-link">Profile</Link> 
+            <span className="menu-link" onClick={() => navigate('/account')}>Profile</span>
           </li>
           <li className="menu-item">
-            <Link to="/orders" className="menu-link">My Orders</Link> 
+            <span className="menu-link" onClick={() => navigate('/orders')}>My Orders</span>
           </li>
           <li className="menu-item">
-            <Link to="/logout" className="menu-link">Logout</Link> 
+            <span className="menu-link" onClick={() => navigate('/logout')}>Logout</span>
           </li>
         </ul>
       )}
