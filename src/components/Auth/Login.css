@@ -10,13 +10,13 @@ body {
     padding: 20px;
   }
 
-  .auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 85vh; 
-    margin-top: -50px; 
-  }  
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh; /* or 100vh minus header/nav height */
+}
+
 
   .auth-form {
     background: white;
