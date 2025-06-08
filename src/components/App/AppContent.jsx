@@ -1,28 +1,32 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+
 import Header from '../Header/Header.jsx';
 import Navbar from '../Navbar/Navbar.jsx';
 import Footer from '../Footer/Footer.jsx';
+
 import NewArrivals from '../NewArrivals/NewArrivals.jsx';
 import NewArrivalsData from '../NewArrivals/NewArrivalsData.js';
 import BestSellers from '../BestSellers/BestSellers.jsx';
 import BestsellersData from '../BestSellers/BestsellersData.js';
-import logo from '../../assets/logo.svg';
+
+import logo from '../../assets/logo.png';
 import welcomeImage from '../../assets/background.jpg';
 
 import Men from '../Men/Men.jsx';
 import Women from '../Women/Women.jsx';
 import Kids from '../Kids/Kids.jsx';
 import Sale from '../Sale/Sale.jsx';
-import Login from '../Auth/Login.jsx'; 
+import Login from '../Auth/Login.jsx';
 import SignUp from '../Auth/SignUp';
 import Account from '../Account/account.jsx';
 import UserInfo from '../Account/UserInfo/UserInfo.jsx';
 import MyOrders from '../Account/MyOrders/MyOrders.jsx';
+import CartPage from '../ShoppingCart/CartPage.jsx';
+
 
 const AppContent = () => {
   const location = useLocation();
-
   const isHomePage = location.pathname === '/' || location.pathname === '/nordicsteps/';
 
   return (
@@ -31,7 +35,6 @@ const AppContent = () => {
       <Navbar />
 
       <main className="main-content">
-        {/* Conditionally show image only on home page */}
         {isHomePage && (
           <div className="image-container">
             <img src={welcomeImage} alt="Welcome to Nordic Steps" className="welcome-image" />
@@ -55,10 +58,13 @@ const AppContent = () => {
           <Route path="/sale" element={<Sale />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          
           <Route path="/account" element={<Account />}>
-          <Route path="/account/profile" element={<UserInfo />} />
-          <Route path="/account/orders" element={<MyOrders />} />
-        </Route>
+            <Route path="profile" element={<UserInfo />} />
+            <Route path="orders" element={<MyOrders />} />
+          </Route>
+
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </main>
 
