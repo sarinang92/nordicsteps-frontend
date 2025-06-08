@@ -12,6 +12,7 @@ const Login = () => {
     e.preventDefault();
     if (email === "nordic@example.com" && password === "nordic") {
       alert("Login successful!");
+      navigate("/account");
     } else {
       setError("Invalid email or password");
     }

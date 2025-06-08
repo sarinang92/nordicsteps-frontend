@@ -6,9 +6,6 @@ body {
     text-align: center;
   }
 
-  .app-container {
-    padding: 20px;
-  }
 
 .auth-container {
   display: flex;

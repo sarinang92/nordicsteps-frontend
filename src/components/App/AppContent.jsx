@@ -16,6 +16,9 @@ import Kids from '../Kids/Kids.jsx';
 import Sale from '../Sale/Sale.jsx';
 import Login from '../Auth/Login.jsx'; 
 import SignUp from '../Auth/SignUp';
+import Account from '../Account/account.jsx';
+import UserInfo from '../Account/UserInfo/UserInfo.jsx';
+import MyOrders from '../Account/MyOrders/MyOrders.jsx';
 
 const AppContent = () => {
   const location = useLocation();
@@ -52,6 +55,10 @@ const AppContent = () => {
           <Route path="/sale" element={<Sale />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/account" element={<Account />}>
+          <Route path="/account/profile" element={<UserInfo />} />
+          <Route path="/account/orders" element={<MyOrders />} />
+        </Route>
         </Routes>
       </main>
 

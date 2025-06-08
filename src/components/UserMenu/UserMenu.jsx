@@ -37,7 +37,7 @@ const UserMenu = () => {
             <span className="menu-link" onClick={() => navigate('/orders')}>My Orders</span>
           </li>
           <li className="menu-item">
-            <span className="menu-link" onClick={() => navigate('/logout')}>Logout</span>
+            <span className="menu-link" onClick={() => navigate('/login')}>Logout</span>
           </li>
         </ul>
       )}
