@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import ShoppingCart from '../ShoppingCart/ShoppingCart.jsx';
 import UserMenu from '../UserMenu/UserMenu.jsx';
-import searchlogo from '../../assets/SearchLogo.png'; // ✅ Your search icon image
+import searchlogo from '../../assets/SearchLogo.png'; // Your search icon image
 
 const Header = ({ logoSrc }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -32,7 +32,7 @@ const Header = ({ logoSrc }) => {
       <form className="header-search" onSubmit={handleSearchSubmit}>
         <input
           type="text"
-          placeholder="Søk etter produkter"
+          placeholder="Search for products"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
