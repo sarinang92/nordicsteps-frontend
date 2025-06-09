@@ -11,11 +11,11 @@ const UserInfo = () => {
   });
 
   const [passwords, setPasswords] = useState({
+    oldPassword: '',
     password: '',
     confirmPassword: ''
   });
 
-  // Get user ID from localStorage
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const UserInfo = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'password' || name === 'confirmPassword') {
+    if (['password', 'confirmPassword', 'oldPassword'].includes(name)) {
       setPasswords(prev => ({ ...prev, [name]: value }));
     } else {
       setUser(prev => ({ ...prev, [name]: value }));
@@ -71,8 +71,24 @@ const UserInfo = () => {
       return;
     }
 
-    // Optional: Call password update API here
-    alert('Password updated!');
+    fetch('http://localhost:8080/api/auth/change-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId,
+        oldPassword: passwords.oldPassword,
+        newPassword: passwords.password
+      })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Password change failed');
+        return res.json();
+      })
+      .then(data => {
+        alert(data.message || 'Password updated!');
+        setPasswords({ oldPassword: '', password: '', confirmPassword: '' });
+      })
+      .catch(err => alert(err.message));
   };
 
   return (
@@ -109,16 +125,39 @@ const UserInfo = () => {
       </form>
 
       <form onSubmit={handlePasswordChange} className="user-info-form password-section">
-        <h3>Change Password</h3>
+        <h2>Password Management</h2>
+
+        <label>
+          Current Password:
+          <input
+            type="password"
+            name="oldPassword"
+            value={passwords.oldPassword}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
         <label>
           New Password:
-          <input type="password" name="password" value={passwords.password} onChange={handleChange} />
+          <input
+            type="password"
+            name="password"
+            value={passwords.password}
+            onChange={handleChange}
+            required
+          />
         </label>
 
         <label>
           Confirm New Password:
-          <input type="password" name="confirmPassword" value={passwords.confirmPassword} onChange={handleChange} />
+          <input
+            type="password"
+            name="confirmPassword"
+            value={passwords.confirmPassword}
+            onChange={handleChange}
+            required
+          />
         </label>
 
         <button type="submit">Update Password</button>
