@@ -8,18 +8,35 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (email === "nordic@example.com" && password === "nordic") {
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || "Login failed");
+      }
+
+      const user = await response.json(); // backend returns email
+      localStorage.setItem("userEmail", user.email); // store in browser
+
       alert("Login successful!");
       navigate("/account");
-    } else {
-      setError("Invalid email or password");
+
+    } catch (err) {
+      setError(err.message);
     }
   };
 
   const handleSignUpClick = () => {
-    navigate('/signup'); // Go to signup page
+    navigate('/signup');
   };
 
   return (
@@ -42,8 +59,6 @@ const Login = () => {
           required
         />
         <button type="submit">Login</button>
-
-      
         <button
           type="button"
           onClick={handleSignUpClick}
@@ -52,7 +67,6 @@ const Login = () => {
           Sign Up
         </button>
       </form>
-
     </div>
   );
 };

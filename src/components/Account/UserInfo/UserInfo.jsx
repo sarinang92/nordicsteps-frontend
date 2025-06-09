@@ -1,18 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UserInfo.css';
 
 const UserInfo = () => {
   const [user, setUser] = useState({
-    name: 'Nordic User',
-    email: 'nordic@example.com',
-    phone: '+47 123 45 678',
-    address: 'Skomakerveien 12, Oslo, Norway',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
   });
 
   const [passwords, setPasswords] = useState({
     password: '',
     confirmPassword: ''
   });
+
+  // Get user ID from localStorage
+  const userId = localStorage.getItem('userId');
+
+  useEffect(() => {
+    if (!userId) return;
+
+    fetch(`http://localhost:8080/api/v1/users/${userId}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to load user data");
+        return res.json();
+      })
+      .then(data => {
+        setUser({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          address: data.address
+        });
+      })
+      .catch(err => console.error(err.message));
+  }, [userId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,8 +50,17 @@ const UserInfo = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('User info updated!');
-    // You could send user data to an API here
+
+    fetch(`http://localhost:8080/api/v1/users/${userId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user)
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to update user info");
+        alert('User info updated!');
+      })
+      .catch(err => alert(err.message));
   };
 
   const handlePasswordChange = (e) => {
@@ -38,8 +71,8 @@ const UserInfo = () => {
       return;
     }
 
+    // Optional: Call password update API here
     alert('Password updated!');
-    // You could send password update to an API here
   };
 
   return (
@@ -48,8 +81,13 @@ const UserInfo = () => {
 
       <form onSubmit={handleSubmit} className="user-info-form">
         <label>
-          Name:
-          <input type="text" name="name" value={user.name} onChange={handleChange} />
+          First Name:
+          <input type="text" name="firstName" value={user.firstName} onChange={handleChange} />
+        </label>
+
+        <label>
+          Last Name:
+          <input type="text" name="lastName" value={user.lastName} onChange={handleChange} />
         </label>
 
         <label>
@@ -59,7 +97,7 @@ const UserInfo = () => {
 
         <label>
           Mobile:
-          <input type="tel" name="phone" value={user.phone} onChange={handleChange} />
+          <input type="tel" name="phoneNumber" value={user.phoneNumber} onChange={handleChange} />
         </label>
 
         <label>
@@ -70,28 +108,17 @@ const UserInfo = () => {
         <button type="submit">Submit Changes</button>
       </form>
 
-      {/* 👇 Password section below submit */}
       <form onSubmit={handlePasswordChange} className="user-info-form password-section">
         <h3>Change Password</h3>
 
         <label>
           New Password:
-          <input
-            type="password"
-            name="password"
-            value={passwords.password}
-            onChange={handleChange}
-          />
+          <input type="password" name="password" value={passwords.password} onChange={handleChange} />
         </label>
 
         <label>
           Confirm New Password:
-          <input
-            type="password"
-            name="confirmPassword"
-            value={passwords.confirmPassword}
-            onChange={handleChange}
-          />
+          <input type="password" name="confirmPassword" value={passwords.confirmPassword} onChange={handleChange} />
         </label>
 
         <button type="submit">Update Password</button>
