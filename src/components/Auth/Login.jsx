@@ -1,6 +1,6 @@
 import "./Login.css";
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -8,36 +8,46 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Clear email and password when this component loads
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+  }, []);
+
   const handleLogin = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
 
-  try {
-    const response = await fetch("http://localhost:8080/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (!response.ok) {
-      const message = await response.text();
-      throw new Error(message || "Login failed");
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || "Login failed");
+      }
+
+      const user = await response.json();
+      localStorage.setItem("userEmail", user.email);
+      localStorage.setItem("userId", user.id);
+
+      alert("Login successful!");
+
+      // Optional cleanup before navigating 
+      setEmail("");
+      setPassword("");
+
+      navigate("/account");
+    } catch (err) {
+      setError(err.message);
     }
-
-    const user = await response.json();
-    localStorage.setItem("userEmail", user.email); //Set userEmail
-    localStorage.setItem("userId", user.id);  // Set userId 
-
-    alert("Login successful!");
-    navigate("/account");
-
-  } catch (err) {
-    setError(err.message);
-  }
-};
+  };
 
   const handleSignUpClick = () => {
-    navigate('/signup');
+    navigate("/signup");
   };
 
   return (
@@ -45,21 +55,27 @@ const Login = () => {
       <form onSubmit={handleLogin} className="auth-form">
         <h2>Login</h2>
         {error && <p className="error-message">{error}</p>}
+
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
           required
         />
+
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
           required
         />
+
         <button type="submit">Login</button>
+
         <button
           type="button"
           onClick={handleSignUpClick}
