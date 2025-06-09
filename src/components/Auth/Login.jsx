@@ -1,14 +1,15 @@
 import "./Login.css";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // ✅ Add useLocation
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation(); // ✅ Capture location
+  const from = location.state?.from || "/account"; // ✅ Get fallback redirect
 
-  // Clear email and password when this component loads
   useEffect(() => {
     setEmail("");
     setPassword("");
@@ -36,11 +37,10 @@ const Login = () => {
 
       alert("Login successful!");
 
-      // Optional cleanup before navigating 
       setEmail("");
       setPassword("");
 
-      navigate("/account");
+      navigate(from, { replace: true }); // ✅ Redirect to where user came from
     } catch (err) {
       setError(err.message);
     }

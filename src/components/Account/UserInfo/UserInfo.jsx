@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './UserInfo.css';
 
 const UserInfo = () => {
-  const [user, setUser] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    address: '',
-  });
+const [user, setUser] = useState({
+  firstName: '',
+  lastName: '',
+  email: '',
+  phoneNumber: '',
+  address: '',
+  city: '',
+  postalCode: '',
+  country: ''
+});
 
   const [passwords, setPasswords] = useState({
     oldPassword: '',
@@ -27,14 +30,18 @@ const UserInfo = () => {
         return res.json();
       })
       .then(data => {
-        setUser({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          phoneNumber: data.phoneNumber,
-          address: data.address
-        });
-      })
+      setUser({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        city: data.city,
+        postalCode: data.postalCode,
+        country: data.country
+      });
+    })
+
       .catch(err => console.error(err.message));
   }, [userId]);
 
@@ -120,6 +127,22 @@ const UserInfo = () => {
           Address:
           <input type="text" name="address" value={user.address} onChange={handleChange} />
         </label>
+
+        <label>
+        City:
+        <input type="text" name="city" value={user.city} onChange={handleChange} />
+        </label>
+
+        <label>
+          Postal code:
+          <input type="text" name="postalCode" value={user.postalCode} onChange={handleChange} />
+        </label>
+
+        <label>
+          Country:
+          <input type="text" name="country" value={user.country} onChange={handleChange} />
+        </label>
+
 
         <button type="submit">Submit Changes</button>
       </form>

@@ -1,17 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CartPage.css';
 
 export default function CartPage() {
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem('userId') !== null;
+
   const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Nike Air Max 270', price: 1199, originalPrice: 1499, quantity: 1, size: 'EU 42', image: 'https://via.placeholder.com/100?text=Nike+Air+Max+270' },
-    { id: 2, name: 'Adidas Ultraboost 22', price: 1349, originalPrice: 1599, quantity: 1, size: 'EU 44', image: 'https://via.placeholder.com/100?text=Ultraboost+22' },
-    { id: 3, name: 'Asics Gel-Kayano 29', price: 1299, originalPrice: 1499, quantity: 1, size: 'EU 41', image: 'https://via.placeholder.com/100?text=Gel-Kayano+29' }
+    {
+      id: 1,
+      name: 'Nike Air Max 270',
+      price: 1199,
+      originalPrice: 1499,
+      quantity: 1,
+      size: 'EU 42',
+      image: 'https://via.placeholder.com/100?text=Nike+Air+Max+270'
+    },
+    {
+      id: 2,
+      name: 'Adidas Ultraboost 22',
+      price: 1349,
+      originalPrice: 1599,
+      quantity: 1,
+      size: 'EU 44',
+      image: 'https://via.placeholder.com/100?text=Ultraboost+22'
+    },
+    {
+      id: 3,
+      name: 'Asics Gel-Kayano 29',
+      price: 1299,
+      originalPrice: 1499,
+      quantity: 1,
+      size: 'EU 41',
+      image: 'https://via.placeholder.com/100?text=Gel-Kayano+29'
+    }
   ]);
 
-  const [mode, setMode] = useState(null); // 'guest' or 'member'
   const [form, setForm] = useState({
-    email: '',
-    password: '',
     firstName: '',
     lastName: '',
     address: '',
@@ -31,26 +56,13 @@ export default function CartPage() {
   };
 
   const updateQuantity = (id, qty) => {
-    setCartItems(items => items.map(item => item.id === id ? { ...item, quantity: Math.max(1, qty) } : item));
+    setCartItems(items =>
+      items.map(item => item.id === id ? { ...item, quantity: Math.max(1, qty) } : item)
+    );
   };
 
   const removeItem = (id) => {
     setCartItems(items => items.filter(item => item.id !== id));
-  };
-
-  const handleLogin = () => {
-    if (form.email === 'user@example.com' && form.password === '1234') {
-      setForm(prev => ({
-        ...prev,
-        firstName: 'Jane',
-        lastName: 'Doe',
-        address: '123 Sample Street',
-        phone: '12345678',
-        zip: '0123',
-      }));
-    } else {
-      alert('Invalid login (simulated)');
-    }
   };
 
   const placeOrder = (e) => {
@@ -58,11 +70,23 @@ export default function CartPage() {
     alert('Order placed successfully!');
   };
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      setForm(prev => ({
+        ...prev,
+        firstName: 'Jane',
+        lastName: 'Doe',
+        address: '123 Road',
+        phone: '12345678',
+        zip: '1234'
+      }));
+    }
+  }, [isLoggedIn]);
+
   return (
     <div className="checkout-page">
       <h2>Your Cart</h2>
 
-      {/* Cart Summary */}
       <div className="cart-section">
         {cartItems.map(item => (
           <div key={item.id} className="cart-item">
@@ -89,37 +113,24 @@ export default function CartPage() {
         </div>
       </div>
 
-      {/* User Mode Selection */}
-      {!mode && (
-        <div className="mode-toggle">
-          <h3>Proceed as:</h3>
-          <button type="button" onClick={() => setMode('member')}>I have an account</button>
-          <button type="button" onClick={() => setMode('guest')}>Guest Checkout</button>
-        </div>
-      )}
-
-      {/* Checkout Form */}
-      {mode && (
+ {!isLoggedIn ? (
+  <div className="mode-toggle">
+    <button
+      type="button"
+      className="checkout-button"
+      onClick={() => navigate('/login', { state: { from: '/cart' } })}
+    >
+      Login to Checkout
+    </button>
+  </div>
+      ) : (
         <form className="checkout-form" onSubmit={placeOrder}>
           <h2>Your Information</h2>
-
-          {mode === 'member' ? (
-            <>
-              <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-              <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-              <button type="button" onClick={handleLogin} className="checkout-button">Log In & Prefill</button>
-            </>
-          ) : null}
-
-          {mode === 'guest' || (mode === 'member' && form.firstName) ? (
-            <>
-              <input type="text" name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} required />
-              <input type="text" name="lastName" placeholder="Last Name" value={form.lastName} onChange={handleChange} required />
-              <input type="text" name="address" placeholder="Address" value={form.address} onChange={handleChange} required />
-              <input type="text" name="zip" placeholder="Postcode" value={form.zip} onChange={handleChange} required />
-              <input type="tel" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} required />
-            </>
-          ) : null}
+          <input type="text" name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} required />
+          <input type="text" name="lastName" placeholder="Last Name" value={form.lastName} onChange={handleChange} required />
+          <input type="text" name="address" placeholder="Address" value={form.address} onChange={handleChange} required />
+          <input type="text" name="zip" placeholder="Postcode" value={form.zip} onChange={handleChange} required />
+          <input type="tel" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} required />
 
           <h2>Delivery</h2>
           <label><input type="radio" name="delivery" value="pickup" checked={form.delivery === 'pickup'} onChange={handleChange} /> Pick up at warehouse (Free)</label>
