@@ -6,6 +6,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem('userId') !== null;
 
+   // Cart items and checkout form state
   const [cartItems, setCartItems] = useState([]);
   const [form, setForm] = useState({
     firstName: '',
@@ -17,6 +18,7 @@ export default function CartPage() {
     payment: 'klarna',
   });
 
+  // Calculations for summary
   const subtotal = cartItems.reduce((sum, item) => sum + (item.totalPrice || 0), 0);
   const vat = +(subtotal * 0.25).toFixed(2);
   const deliveryFee =
@@ -24,10 +26,12 @@ export default function CartPage() {
     form.delivery === 'standard' ? 49 : 0;
   const total = subtotal + deliveryFee;
 
+   // Handle input changes 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // Update item quantity
   const updateQuantity = (id, qty) => {
     setCartItems(items =>
       items.map(item =>
@@ -36,6 +40,7 @@ export default function CartPage() {
     );
   };
 
+  // Remove item from cart
   const removeItem = (id) => {
     fetch(`http://localhost:8080/api/v1/cart/items/${id}`, {
       method: 'DELETE'
@@ -44,6 +49,7 @@ export default function CartPage() {
     });
   };
 
+  // Place the order
   const placeOrder = (e) => {
     e.preventDefault();
     const userId = localStorage.getItem('userId');
@@ -78,6 +84,7 @@ export default function CartPage() {
       });
   };
 
+  // Load user info and cart items 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
     if (!userId) return;

@@ -9,7 +9,7 @@ const Account = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // email is stored in localStorage
+    // Get user info from localStorage
     const storedEmail = localStorage.getItem("userEmail");
     const storedId = localStorage.getItem("userId");
 
@@ -21,6 +21,7 @@ const Account = () => {
     }
   }, [navigate]);
 
+  // Clear session and redirect to login
   const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();

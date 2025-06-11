@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import ShoppingCart from '../ShoppingCart/ShoppingCart.jsx';
 import UserMenu from '../UserMenu/UserMenu.jsx';
-import searchlogo from '../../assets/SearchLogo.png'; // Your search icon image
+import searchlogo from '../../assets/SearchLogo.png'; //  search bar image
 
 const Header = ({ logoSrc }) => {
   const [searchTerm, setSearchTerm] = useState('');

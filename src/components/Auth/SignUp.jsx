@@ -1,14 +1,14 @@
 import "./Login.css";
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // 👈 add useLocation
+import { useNavigate, useLocation } from "react-router-dom"; // useLocation
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const location = useLocation(); // 👈 get location
-  const from = location.state?.from || "/account"; // 👈 fallback to /account if no redirect provided
+  const location = useLocation(); // get location
+  const from = location.state?.from || "/account"; // fallback to /account if no redirect provided
 
   useEffect(() => {
     setEmail("");
@@ -40,7 +40,7 @@ const Login = () => {
       setEmail("");
       setPassword("");
 
-      navigate(from, { replace: true }); // 👈 redirect back to previous page
+      navigate(from, { replace: true }); // redirect back to previous page
     } catch (err) {
       setError(err.message);
     }

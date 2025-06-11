@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './UserInfo.css';
 
+// State to store user info
 const UserInfo = () => {
 const [user, setUser] = useState({
   firstName: '',
@@ -13,6 +14,7 @@ const [user, setUser] = useState({
   country: ''
 });
 
+  // State to handle password fields
   const [passwords, setPasswords] = useState({
     oldPassword: '',
     password: '',
@@ -45,6 +47,7 @@ const [user, setUser] = useState({
       .catch(err => console.error(err.message));
   }, [userId]);
 
+    // Handle input changes for password fields
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -55,6 +58,7 @@ const [user, setUser] = useState({
     }
   };
 
+// Handle user info form submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -70,6 +74,7 @@ const [user, setUser] = useState({
       .catch(err => alert(err.message));
   };
 
+  // Handle password change form submit
   const handlePasswordChange = (e) => {
     e.preventDefault();
 

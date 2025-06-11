@@ -1,20 +1,22 @@
 import "./Login.css";
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // ✅ Add useLocation
+import { useNavigate, useLocation } from "react-router-dom"; // useLocation
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ Capture location
-  const from = location.state?.from || "/account"; // ✅ Get fallback redirect
+  const location = useLocation(); // Capture location
+  const from = location.state?.from || "/account"; // Get fallback redirect
 
   useEffect(() => {
+    // Clear inputs on load
     setEmail("");
     setPassword("");
   }, []);
 
+  // Handle login form submit
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -40,7 +42,7 @@ const Login = () => {
       setEmail("");
       setPassword("");
 
-      navigate(from, { replace: true }); // ✅ Redirect to where user came from
+      navigate(from, { replace: true }); // Redirect to where user came from
     } catch (err) {
       setError(err.message);
     }
