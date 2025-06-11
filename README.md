@@ -1,18 +1,42 @@
-# React + Vite
+# NordicSteps Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive frontend app for the NordicSteps platform - an online shoe store.
 
-Currently, two official plugins are available:
+## Built With
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React + Vite
 
-1. open cmd or a terminal and go to the folder (cd C:\Users\your-user\Desktop\NordicSteps-Task4.7)
+---
 
-2. run the following commands:
+## Getting Started
+
+### Prerequisites
+
+- Node.js v16+
+- npm
+- Access to the NordicSteps API and its backend
+
+### Installation
+
+1. **Clone the repo**
+
+   ```bash
+   git clone https://github.com/your_username/nordicsteps-frontend.git
+   cd nordicsteps-frontend
+
+   ```
+
+2. **Run the following commands**
+
+   ```bash
    npm install
    npm run dev
+   ```
 
-3. Log in the front end using the test account:
+3. **Set up the backend of the project**
+
+4. **Log into the front end using the test account**
+   ```bash
    Email: alice@example.com
    Password: hashed_pw1
+   ```
