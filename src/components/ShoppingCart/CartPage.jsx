@@ -6,36 +6,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem('userId') !== null;
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Nike Air Max 270',
-      price: 1199,
-      originalPrice: 1499,
-      quantity: 1,
-      size: 'EU 42',
-      image: 'https://via.placeholder.com/100?text=Nike+Air+Max+270'
-    },
-    {
-      id: 2,
-      name: 'Adidas Ultraboost 22',
-      price: 1349,
-      originalPrice: 1599,
-      quantity: 1,
-      size: 'EU 44',
-      image: 'https://via.placeholder.com/100?text=Ultraboost+22'
-    },
-    {
-      id: 3,
-      name: 'Asics Gel-Kayano 29',
-      price: 1299,
-      originalPrice: 1499,
-      quantity: 1,
-      size: 'EU 41',
-      image: 'https://via.placeholder.com/100?text=Gel-Kayano+29'
-    }
-  ]);
-
+  const [cartItems, setCartItems] = useState([]);
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -46,9 +17,11 @@ export default function CartPage() {
     payment: 'klarna',
   });
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.totalPrice || 0), 0);
   const vat = +(subtotal * 0.25).toFixed(2);
-  const deliveryFee = form.delivery === 'home' ? 149 : form.delivery === 'pickupPoint' ? 49 : 0;
+  const deliveryFee =
+    form.delivery === 'express' ? 149 :
+    form.delivery === 'standard' ? 49 : 0;
   const total = subtotal + deliveryFee;
 
   const handleChange = (e) => {
@@ -57,31 +30,80 @@ export default function CartPage() {
 
   const updateQuantity = (id, qty) => {
     setCartItems(items =>
-      items.map(item => item.id === id ? { ...item, quantity: Math.max(1, qty) } : item)
+      items.map(item =>
+        item.cartItemId === id ? { ...item, quantity: Math.max(1, qty) } : item
+      )
     );
   };
 
   const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+    fetch(`http://localhost:8080/api/v1/cart/items/${id}`, {
+      method: 'DELETE'
+    }).then(() => {
+      setCartItems(items => items.filter(item => item.cartItemId !== id));
+    });
   };
 
   const placeOrder = (e) => {
     e.preventDefault();
-    alert('Order placed successfully!');
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      alert("User not logged in.");
+      return;
+    }
+
+    const orderRequest = {
+      shippingAddress: form.address,
+      deliveryMethod: form.delivery,
+      paymentMethod: form.payment,
+      discountCode: null
+    };
+
+    fetch(`http://localhost:8080/api/orders/checkout/${userId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderRequest)
+    })
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to place order');
+        return response.json();
+      })
+      .then(data => {
+        alert(`Order placed! Order ID: ${data.orderId}`);
+        navigate('/orders');
+      })
+      .catch(error => {
+        console.error('Error placing order:', error);
+        alert('Failed to place order.');
+      });
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      setForm(prev => ({
-        ...prev,
-        firstName: 'Jane',
-        lastName: 'Doe',
-        address: '123 Road',
-        phone: '12345678',
-        zip: '1234'
-      }));
-    }
-  }, [isLoggedIn]);
+    const userId = localStorage.getItem('userId');
+    if (!userId) return;
+
+    // Load user info
+    fetch(`http://localhost:8080/api/v1/users/${userId}`)
+      .then(res => res.json())
+      .then(user => {
+        setForm(prev => ({
+          ...prev,
+          firstName: user.firstName || '',
+          lastName: user.lastName || '',
+          address: user.address || '',
+          phone: user.phoneNumber || '',
+          zip: user.postalCode || '',
+        }));
+      });
+
+    // Load cart items
+    fetch('http://localhost:8080/api/v1/cart/items')
+      .then(res => res.json())
+      .then(data => {
+        setCartItems(data);
+      })
+      .catch(err => console.error('Cart fetch failed:', err));
+  }, []);
 
   return (
     <div className="checkout-page">
@@ -89,19 +111,21 @@ export default function CartPage() {
 
       <div className="cart-section">
         {cartItems.map(item => (
-          <div key={item.id} className="cart-item">
-            <img src={item.image} alt={item.name} />
+          <div key={item.cartItemId} className="cart-item">
+            <img src={item.productImageUrl || 'https://via.placeholder.com/100'} alt={item.productName} />
             <div className="item-details">
-              <p><strong>{item.name}</strong></p>
+              <p><strong>{item.productName}</strong></p>
               <p>Size: {item.size}</p>
-              <p>
-                {item.originalPrice && <span className="old-price">{item.originalPrice},-</span>}
-                <span className="new-price">{item.price},-</span>
-              </p>
+              <p><span className="new-price">{item.productCurrentPrice},-</span></p>
             </div>
             <div className="qty-remove">
-              <input type="number" min="1" value={item.quantity} onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))} />
-              <button className="remove-button" onClick={() => removeItem(item.id)}>✖</button>
+              <input
+                type="number"
+                min="1"
+                value={item.quantity}
+                onChange={(e) => updateQuantity(item.cartItemId, parseInt(e.target.value))}
+              />
+              <button className="remove-button" onClick={() => removeItem(item.cartItemId)}>✖</button>
             </div>
           </div>
         ))}
@@ -113,16 +137,16 @@ export default function CartPage() {
         </div>
       </div>
 
- {!isLoggedIn ? (
-  <div className="mode-toggle">
-    <button
-      type="button"
-      className="checkout-button"
-      onClick={() => navigate('/login', { state: { from: '/cart' } })}
-    >
-      Login to Checkout
-    </button>
-  </div>
+      {!isLoggedIn ? (
+        <div className="mode-toggle">
+          <button
+            type="button"
+            className="checkout-button"
+            onClick={() => navigate('/login', { state: { from: '/cart' } })}
+          >
+            Login to Checkout
+          </button>
+        </div>
       ) : (
         <form className="checkout-form" onSubmit={placeOrder}>
           <h2>Your Information</h2>
@@ -134,8 +158,8 @@ export default function CartPage() {
 
           <h2>Delivery</h2>
           <label><input type="radio" name="delivery" value="pickup" checked={form.delivery === 'pickup'} onChange={handleChange} /> Pick up at warehouse (Free)</label>
-          <label><input type="radio" name="delivery" value="pickupPoint" checked={form.delivery === 'pickupPoint'} onChange={handleChange} /> Pickup point (49 NOK)</label>
-          <label><input type="radio" name="delivery" value="home" checked={form.delivery === 'home'} onChange={handleChange} /> Home delivery (149 NOK)</label>
+          <label><input type="radio" name="delivery" value="standard" checked={form.delivery === 'standard'} onChange={handleChange} /> Standard Delivery (49 NOK)</label>
+          <label><input type="radio" name="delivery" value="express" checked={form.delivery === 'express'} onChange={handleChange} /> Express delivery (149 NOK)</label>
 
           <h2>Payment Method</h2>
           <label><input type="radio" name="payment" value="klarna" checked={form.payment === 'klarna'} onChange={handleChange} /> Klarna</label>
