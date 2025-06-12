@@ -23,7 +23,7 @@ const Footer = () => {
         <ul className="footer-links">
         <li><Link to="/about" className="footer-link">About Us</Link></li>
         <li><Link to="/privacy" className="footer-link">Privacy Policy</Link></li>
-        <li><Link to="/faq" className="footer-link">Terms of Service</Link></li>
+        <li><Link to="/faq" className="footer-link">FAQ</Link></li>
         <li><Link to="/contact" className="footer-link">Contact Us</Link></li>
       </ul>
     </footer>
