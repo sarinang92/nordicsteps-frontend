@@ -1,0 +1,43 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height to ensure footer can sit at the bottom if using Flexbox */
+}
+
+.main-content {
+  position: relative; /* Needed to position the text over the image */
+  width: 100%; /* Ensures the container takes full width */
+}
+
+.image-container {
+  position: relative; /* Relative positioning context for absolute children */
+  width: 100%; /* Ensure the container spans the full width */
+  display: block; /* Ensures that the div behaves like a block element */
+}
+
+.welcome-image {
+  width: 100%; /* Full width of its container */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove extra space below the image */
+}
+
+.overlay-text {
+  position: absolute; /* Absolute position to overlay it on the image */
+  top: 0; /* Start from the top edge */
+  left: 0; /* Start from the left edge */
+  right: 0; /* Stretch to the right edge */
+  bottom: 0; /* Stretch to the bottom edge */
+  display: flex; /* Flexbox to center the text both vertically and horizontally */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  color: white; /* White text for better visibility */
+  text-align: center; /* Center the text horizontally */
+  background-color: rgba(0, 0, 0, 0.5); /* Optional: dark transparent overlay for better readability */
+  padding: 20px; /* Padding around the text */
+  box-sizing: border-box; /* Include padding in width/height calculations */
+}
+
+.footer {
+  margin-top: auto; /* Push the footer to the bottom of the viewport */
+}

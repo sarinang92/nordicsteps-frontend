@@ -1,0 +1,37 @@
+.new-arrivals {
+    background-color: white; /* White background for the new arrivals section */
+    padding: 20px; /* Padding around the content */
+    text-align: center; /* Centering the title */
+  }
+  
+  .product-container {
+    display: flex; /* Using flexbox to layout product boxes */
+    flex-wrap: wrap; /* Allows boxes to wrap to next line */
+    justify-content: center; /* Center product boxes horizontally */
+    gap: 20px; /* Space between product boxes */
+  }
+  
+  .product-box {
+    width: 200px; /* Fixed width for each product box */
+    border: 1px solid #ccc; /* Border around product boxes */
+    padding: 10px; /* Padding inside product boxes */
+    text-align: center; /* Center text within the box */
+  }
+  
+  .product-image {
+    width: 100%; /* Full width of the product box */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  .product-info {
+    margin-top: 10px; /* Space between image and text info */
+  }
+  
+  .filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 10px auto;
+  max-width: 800px;
+}
