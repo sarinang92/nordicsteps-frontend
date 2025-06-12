@@ -19,6 +19,11 @@
   margin-right: 10px;
 }
 
+.logo-link {
+  text-decoration: none; 
+  color: inherit;
+}
+
 .tagline {
   font-size: 1.5rem;
 }
@@ -26,5 +31,40 @@
 .user-controls {
   display: flex; /* Aligns ShoppingCart and UserMenu side by side */
   align-items: center; /* Centers them vertically */
-  gap: 20px; /* Optional: adds space between the elements */
+  gap: 20px; /* adds space between the elements */
+}
+
+.header-search {
+  flex: 1;
+  max-width: 400px;
+  margin: 0 20px;
+  display: flex;
+}
+
+.header-search input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+
+.header-search button {
+  padding: 8px 12px;
+  background-color: #ccc;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.header-search button:hover {
+  background-color: #0056b3;
+}
+ 
+
+/* keep it as a link without it changing color when clicking it */
+.logo-link .tagline {
+  color: #000 !important;
+  text-decoration: none;
 }

@@ -28,3 +28,17 @@
   color: #b7aeae; 
   text-decoration: none; 
 }
+
+.payment-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30px;
+ margin-bottom: 30px;
+}
+
+.payment-logos img {
+  height: 30px;
+  object-fit: contain;
+}
