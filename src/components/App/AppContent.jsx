@@ -24,6 +24,10 @@ import UserInfo from '../Account/UserInfo/UserInfo.jsx';
 import MyOrders from '../Account/MyOrders/MyOrders.jsx';
 import CartPage from '../ShoppingCart/CartPage.jsx';
 import ProductPage from '../Product/ProductPage';
+import FAQ from '../FAQ/FAQ';
+import About from '../About Us/About';
+import Privacy from '../Privacy Policy/Privacy';
+import Contact from '../Contact Us/contact';
 
 
 const AppContent = () => {
@@ -67,6 +71,10 @@ const AppContent = () => {
 
           <Route path="/cart" element={<CartPage />} />
           <Route path="/product/:slug" element={<ProductPage />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
 

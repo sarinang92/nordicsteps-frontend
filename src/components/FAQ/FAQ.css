@@ -1,0 +1,30 @@
+.body {
+  padding: 40px;
+  font-family: sans-serif;
+  max-width: 600px;
+  margin: auto;
+}
+
+.faq-section {
+  margin-top: 20px;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.faq-question {
+  font-weight: bold;
+}
+
+.faq-answer {
+  margin-top: 5px;
+}
+
+.faq-links a {
+  margin-right: 15px;
+  text-decoration: none;
+  color: blue;
+}
